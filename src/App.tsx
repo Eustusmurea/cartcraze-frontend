@@ -1,8 +1,7 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 
-// Lazy-loaded components
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Product = lazy(() => import("./pages/Product"));
@@ -13,7 +12,7 @@ const Register = lazy(() => import("./pages/Register"));
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <div className="container mx-auto p-4">
         <Suspense fallback={<div className="text-center">Loading...</div>}>
@@ -28,7 +27,7 @@ const App = () => {
           </Routes>
         </Suspense>
       </div>
-    </BrowserRouter>
+    </>
   );
 };
 
