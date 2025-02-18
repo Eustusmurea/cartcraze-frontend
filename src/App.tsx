@@ -9,6 +9,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const Orders = lazy(() => import("./pages/Orders"));
 const Register = lazy(() => import("./pages/Register"));
+const Profile = lazy(() => import("./pages/Profile")); // New Profile Page
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} /> {/* New Route */}
           </Routes>
         </Suspense>
       </div>
