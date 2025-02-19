@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, image }) => 
       <div className="mt-2 flex justify-between">
         <Link to={`/product/${id}`} className="text-blue-500">View</Link>
         <button
-          onClick={() => addToCart({ id, name, price, quantity: 1 })}
+          onClick={() => addToCart({ id: id.toString(), name, price, quantity: 1 })}
           className="bg-blue-500 text-white px-3 py-1 rounded"
         >
           Add to Cart
