@@ -10,7 +10,9 @@ return(
     <nav className='flex justify-between p-4 bg-blue-500 text-white'>
         <Link to='/' className='text-2xl font-bold'>CartCraze</Link>
         <div className='space-x-4'>
-            <Link to='/cart' className='mr-4'>Cart ({cart.length})</Link>
+        <Link to="/cart">🛒 Cart ({cart.length})</Link>
+        <Link to="/checkout">Checkout</Link>
+        <Link to="/orders">Orders</Link>
             {user ? (
           <>
             <span>{user.email}</span>
