@@ -11,12 +11,17 @@ interface UserProfile {
 
 const Profile = () => {
     const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [originalProfile, setOriginalProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>("");
+    const [updateError, setUpdateError] = useState<string>("");
 
     useEffect(() => {
-        api.get("/user/profile/")
-            .then((res) => setProfile(res.data))
+        api.get("/account/profile/")
+            .then((res) => {
+                setProfile(res.data);
+                setOriginalProfile(res.data); // Store original data for comparison
+            })
             .catch(() => setError("Failed to load profile"))
             .finally(() => setLoading(false));
     }, []);
@@ -26,13 +31,18 @@ const Profile = () => {
     };
 
     const handleUpdate = async () => {
+        if (!profile) return;
         try {
-            await api.put("/account/userprofile/", profile);
+            setUpdateError(""); // Clear previous errors
+            await api.patch("/account/profile/", profile);
+            setOriginalProfile(profile); // Reset comparison state
             alert("Profile updated successfully!");
         } catch {
-            alert("Failed to update profile.");
+            setUpdateError("Failed to update profile.");
         }
     };
+
+    const isModified = JSON.stringify(profile) !== JSON.stringify(originalProfile);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p className="text-red-500">{error}</p>;
@@ -61,7 +71,15 @@ const Profile = () => {
                     <option value="N">Prefer not to say</option>
                 </select>
 
-                <button onClick={handleUpdate} className="bg-blue-500 text-white p-2 rounded mt-4">Update Profile</button>
+                {updateError && <p className="text-red-500 mt-2">{updateError}</p>}
+
+                <button 
+                    onClick={handleUpdate} 
+                    disabled={!isModified}
+                    className={`p-2 rounded mt-4 ${isModified ? "bg-blue-500 text-white" : "bg-gray-400 cursor-not-allowed"}`}
+                >
+                    Update Profile
+                </button>
             </div>
         </div>
     );
