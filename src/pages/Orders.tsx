@@ -1,29 +1,31 @@
-import { useEffect, useState } from 'react';
-import { api } from '../api';
+import { useOrderStore } from "../store/orderStore";
 
 const Orders = () => {
-    const [orders , setOrders] = useState<any[]>([]);
+const {orders }= useOrderStore();
 
-    useEffect(() => {
-        api.get("/orders/").then((res) => setOrders(res.data));
-    }, []);
-
-    return(
-        <div className='p4'> 
-        <h1 className='text-xl font-bold mb-4'> Your Orders</h1>
-        {orders.length === 0 ? (
-            <div> No orders found</div>
+return (
+    <div className="p-4">
+        <h1 className="text-2xl font-bold"> Your Orders</h1>
+        {orders.length > 0 ? (
+            <p>No Orders Yet</p>
         ) : (
             orders.map((order) => (
-                <div key={order.id} className='border p-2 rounded-lg shadow'>
-                    <h2 className='font-bold'>Order #{order.id}</h2>
-                    <p>Status: {order.status}</p>
-                    <p>Total: ${order.total}</p>
-        </div>
+                <div key={order.id} className="border p-2 mt-2">
+                    <h2 className="text-lg font-bold"> Order#</h2>
+                    <p> Date: {new Date(order.date).toLocaleDateString()}</p>
+                    <p> Total: {order.total.toFixed(2)}</p>
+                    <ul className="mt-2">
+                        {order.items.map((item) => (
+                            <li key={item.id}>
+                                {item.name} - ${item.price} (x{item.quantity})
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             ))
         )}
         </div>
-    );
+);
 };
 
 export default Orders;
